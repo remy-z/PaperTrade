@@ -1,0 +1,37 @@
+### FRONTEND ###
+[ ] Search Bar
+    [] on keystroke wait .1 second then query backend server for autocomplete
+[ ] When added to list 
+    [ ] Get quote, check cache first or get from finnhub
+    [ ] subscribe to websocket
+[ ] Sub Ticker Event
+[ ] Unsub Ticker Event
+[ ] Price update event
+
+[] Table 
+    SYMBOL COMPANY PRICE UNSUB
+
+### BACKEND ###
+[ ] Copy the rest of the code for client struct
+    [ ] set of subbed tickers
+[ ] Sub Ticker event
+[ ] Unsub Ticker event
+[ ] price update event
+[ ] Manager
+    [ ] map of tickers to clients subbed to ticker
+        [ ] methods for updating map
+    [ ] parse feed of subbed tickers/broadcast to all clients that are subbed
+
+
+
+
+
+[] seperate service for all http requests from client to finnhub
+[] basically just a proxy for requests to fh api 
+[] cache of data to limit requests to fh api 
+[] quote to get daily opens
+[] symbol lookup for search autocomplete    
+[] basic financials
+
+
+    
