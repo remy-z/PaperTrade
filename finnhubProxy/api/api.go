@@ -16,6 +16,7 @@ type APIServer struct {
 	tree                *common.TST
 	descriptionToSymbol map[string]string
 	companyInfo         map[string]*CompanyProfile
+	wilshire            map[string]int
 }
 
 type apiFunc func(http.ResponseWriter, *http.Request) error
@@ -24,13 +25,14 @@ type ApiError struct {
 	Error string `json:"error"`
 }
 
-func NewAPIServer(listenAddr string, finnhubClient *finnhub.DefaultApiService) *APIServer {
+func NewAPIServer(listenAddr string, finnhubClient *finnhub.DefaultApiService, wilshire map[string]int) *APIServer {
 	return &APIServer{
 		listenAddr:          listenAddr,
 		finnhubClient:       finnhubClient,
 		tree:                &common.TST{},
 		descriptionToSymbol: make(map[string]string),
 		companyInfo:         make(map[string]*CompanyProfile),
+		wilshire:            wilshire,
 	}
 }
 
@@ -44,6 +46,7 @@ func (s *APIServer) Run() {
 	router.HandleFunc("/quote/{symbol}", makeHttpHandleFunc(s.dispatchQuote))
 	router.HandleFunc("/search/{symbol}", makeHttpHandleFunc(s.dispatchSearch))
 	router.HandleFunc("/financials/{symbol}", makeHttpHandleFunc(s.dispatchFinancials))
+	router.HandleFunc("/profile/{symbol}", makeHttpHandleFunc(s.dispatchProfile))
 
 	log.Println("JSON API server running on port: ", s.listenAddr)
 	log.Fatal(http.ListenAndServe(s.listenAddr, router))

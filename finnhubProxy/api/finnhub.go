@@ -49,3 +49,11 @@ func (s *APIServer) finnhubSymbols(market string) ([]finnhub.StockSymbol, error)
 	}
 	return res, nil
 }
+
+func (s *APIServer) finnhubProfile(symbol string) (*finnhub.CompanyProfile2, error) {
+	res, _, err := s.finnhubClient.CompanyProfile2(context.Background()).Symbol(symbol).Execute()
+	if err != nil {
+		return nil, err
+	}
+	return &res, nil
+}

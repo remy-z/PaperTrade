@@ -3,6 +3,8 @@ package api
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/remy-z/PaperTrade/finnhubProxy/common"
 )
 
 func (s *APIServer) dispatchSearch(w http.ResponseWriter, r *http.Request) error {
@@ -18,13 +20,27 @@ func (s *APIServer) getSearch(w http.ResponseWriter, r *http.Request) error {
 	}
 	symbols := findTermWithSubstring(s.companyInfo, term)
 	descriptions := findTermWithSubstring(s.descriptionToSymbol, term)
-	result := make(map[string]string)
-	fmt.Println()
+	result := make([]map[string]string, 0)
 	for _, symbol := range symbols {
-		result[symbol] = s.companyInfo[symbol].Description
+		m := make(map[string]string)
+		m["symbol"], m["description"] = symbol, s.companyInfo[symbol].Description
+		result = append(result, m)
 	}
 	for _, d := range descriptions {
-		result[s.descriptionToSymbol[d]] = d
+		m := make(map[string]string)
+		m["symbol"], m["description"] = s.descriptionToSymbol[d], d
+		result = append(result, m)
 	}
+	fmt.Println(result)
+	common.HeapSort(result, s.wilshire)
 	return writeJSON(w, http.StatusOK, result)
+}
+
+func (s *APIServer) searchScore() {
+
+}
+
+// if len(term) >= 2, display all tickers with matching prefix, then all tickers not matching prefix
+func (s *APIServer) sortSearchResult() {
+
 }
