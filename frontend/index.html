@@ -6,11 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Symbol Tracker</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    Hello World
-
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th draggable="true" onclick="sortTable(0)">Symbol</th>
+                <th draggable="true" onclick="sortTable(1)">Name</th>
+                <th draggable="true" onclick="sortTable(2)">Price</th>
+                <th draggable="true" onclick="sortTable(3)">Change</th>
+                <th draggable="true" onclick="sortTable(4)">Change %</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>SPY</td>
+                <td>S&P 500</td>
+                <td>5</td>
+                <td>1</td>
+                <td>1%</td>
+            </tr>
+            <tr>
+                <td>TSLA</td>
+                <td>Tesla</td>
+                <td>200</td>
+                <td>2</td>
+                <td>1%</td>
+            </tr>
+            <tr>
+                <td>NVDA</td>
+                <td>NVIDIA</td>
+                <td>134</td>
+                <td>-3</td>
+                <td>-2.8%</td>
+            </tr>
+        </tbody>
+    </table>
+    
     <script src="js/script.js"></script>
 </body>
 </html>

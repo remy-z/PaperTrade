@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 
 	"github.com/gorilla/websocket"
 )
@@ -44,13 +45,17 @@ func (f *FhClient) readMessages() error {
 	var msg SendFhTrade
 	for {
 		err := f.conn.ReadJSON(&msg)
-		if err != nil {
-			panic(err)
+		if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
+			log.Printf("error: %v", err)
+			break
 		}
 		if msg.Type == "trade" {
 			f.manager.parseFhPrice(msg)
+		} else {
+			fmt.Print(msg)
 		}
 	}
+	return nil
 }
 
 func (f *FhClient) writeMessages() {
